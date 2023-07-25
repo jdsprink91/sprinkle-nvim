@@ -23,11 +23,7 @@ return require('packer').startup(function(use)
         requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
     }
 
-    -- themes
-    use { 'Mofiqul/dracula.nvim', as = 'dracula' }
-    use { "catppuccin/nvim", as = "catppuccin" }
-    use { "rebelot/kanagawa.nvim", as = "kanagawa" }
-    use { "EdenEast/nightfox.nvim", as = "nightfox" }
+    -- theme
     use { "savq/melange-nvim", as = "melange" }
 
     -- syntax highlighting

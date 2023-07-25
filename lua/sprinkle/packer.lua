@@ -31,10 +31,20 @@ return require('packer').startup(function(use)
     use { 'nvim-treesitter/nvim-treesitter-context' }
 
     -- show me my undo history
-    use { 'mbbill/undotree' }
+    use {
+        'mbbill/undotree',
+        config = function()
+            vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
+        end
+    }
 
     -- git
-    use { 'tpope/vim-fugitive' }
+    use {
+        'tpope/vim-fugitive',
+        config = function()
+            vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
+        end
+    }
     use { 'f-person/git-blame.nvim' }
 
     -- lsps
@@ -65,12 +75,22 @@ return require('packer').startup(function(use)
     use { 'jose-elias-alvarez/null-ls.nvim' }
 
     -- visual help with tabs and spaces
-    use('Yggdroot/indentLine')
+    use {
+        'Yggdroot/indentLine',
+        config = function()
+            vim.g.indentLine_fileTypeExclude = {
+                "alpha",
+            }
+        end
+    }
 
     -- statusline plugin
     use {
         'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        config = function()
+            require("lualine").setup()
+        end
     }
 
     -- that sweet sweet surround plugin
@@ -106,7 +126,15 @@ return require('packer').startup(function(use)
     use {
         "Shatur/neovim-session-manager",
         requires = { 'nvim-lua/plenary.nvim' },
-        config = function() require("session_manager").setup {} end
+        config = function()
+            local config = require('session_manager.config')
+
+            -- don't automatically load up previous session
+            -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
+            require('session_manager').setup({
+                autoload_mode = config.AutoloadMode.Disabled,
+            })
+        end
     }
 
     -- gimme dat debugger

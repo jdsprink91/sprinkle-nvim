@@ -24,7 +24,10 @@ return require('packer').startup(function(use)
     }
 
     -- theme
-    use { "savq/melange-nvim", as = "melange" }
+    use { "savq/melange-nvim", as = "melange", config = function()
+        vim.opt.termguicolors = true
+        vim.cmd.colorscheme("melange")
+    end }
 
     -- syntax highlighting
     use { 'nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' } }

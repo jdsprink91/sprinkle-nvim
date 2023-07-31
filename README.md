@@ -1,9 +1,9 @@
 # sprinkle-nvim
+Neovim setup that works for sprinkles.
+
 ## Setup
 
-If this is your first time doing this on a machine, you have to have packer installed first:
-
-Follow these steps: https://github.com/wbthomason/packer.nvim#bootstrapping
+This should work out of the box! If you see some error messages that `packer` is not installed, then follow these steps: https://github.com/wbthomason/packer.nvim#bootstrapping
 
 Or just do this
 

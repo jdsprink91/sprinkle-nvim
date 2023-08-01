@@ -43,13 +43,13 @@ lspconfig.pylsp.setup {
     }
 }
 
-lsp.format_mapping("pf", {
+lsp.format_mapping("<leader>pf", {
     format_opts = {
         async = false,
         timeout_ms = 10000
     },
     servers = {
-        ["null-ls"] = { 'python', 'htmldjango' },
+        ["null-ls"] = { 'python', 'htmldjango', 'javascript', "javascriptreact", "typescript", "typescriptreact" },
         ['lua_ls'] = { 'lua' },
     }
 })
@@ -86,6 +86,7 @@ null_ls.setup({
     debug = true,
     sources = {
         -- diagnostics
+        null_ls.builtins.code_actions.eslint_d.with({ prefer_local = true }),
         null_ls.builtins.diagnostics.flake8.with({ prefer_local = true }),
         null_ls.builtins.diagnostics.djlint.with({
             prefer_local = true,

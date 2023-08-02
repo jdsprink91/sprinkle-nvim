@@ -167,19 +167,6 @@ return require('packer').startup(function(use)
         end
     }
 
-    -- seeing if I can get colors to work in css / html / javascripts
-    use {
-        "NvChad/nvim-colorizer.lua",
-        config = function()
-            require("colorizer").setup({
-                user_default_options = {
-                    mode = "virtualtext",
-                    tailwind = "lsp"
-                }
-            })
-        end
-    }
-
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then

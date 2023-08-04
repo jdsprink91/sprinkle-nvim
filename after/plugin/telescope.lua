@@ -13,7 +13,7 @@ telescope.setup {
 vim.keymap.set('n', '<leader>ff', "<CMD>Telescope find_files hidden=true<CR>", {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-vim.keymap.set('n', '<A-p>', "<CMD>Telescope git_files hidden=true<CR>", {})
+vim.keymap.set('n', '<leader>gf', "<CMD>Telescope git_files hidden=true<CR>", {})
 vim.keymap.set('n', '<leader>ps', function()
     builtin.grep_string({ search = vim.fn.input("Grep > ") });
 end)

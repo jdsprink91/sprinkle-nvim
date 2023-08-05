@@ -12,6 +12,10 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+    vim.keymap.set({ 'n', 'x' }, '<leader>pf', function()
+        vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
+    end, opts)
 end)
 
 lspconfig.tailwindcss.setup({
@@ -43,16 +47,13 @@ lspconfig.pylsp.setup {
     }
 }
 
-lsp.format_mapping("<leader>pf", {
-    format_opts = {
-        async = false,
-        timeout_ms = 10000
-    },
-    servers = {
-        ["null-ls"] = { 'python', 'htmldjango', 'javascript', "javascriptreact", "typescript", "typescriptreact" },
-        ['lua_ls'] = { 'lua' },
-    }
-})
+lspconfig.eslint.setup {
+    on_attach = function(client)
+        -- turn on that eslint is a formatting provider for the appropriate
+        -- file types
+        client.server_capabilities.documentFormattingProvider = true
+    end
+}
 
 lsp.setup()
 
@@ -86,7 +87,6 @@ null_ls.setup({
     debug = true,
     sources = {
         -- diagnostics
-        null_ls.builtins.code_actions.eslint_d.with({ prefer_local = true }),
         null_ls.builtins.diagnostics.flake8.with({ prefer_local = true }),
         null_ls.builtins.diagnostics.djlint.with({
             prefer_local = true,
@@ -105,7 +105,7 @@ null_ls.setup({
         -- formatting
         null_ls.builtins.formatting.black.with({ prefer_local = true }),
         null_ls.builtins.formatting.isort.with({ prefer_local = true }),
-        null_ls.builtins.formatting.prettier.with({ prefer_local = true }),
-        null_ls.builtins.formatting.djlint.with({ prefer_local = true })
+        null_ls.builtins.formatting.djlint.with({ prefer_local = true, extra_args = { "--profile=django" } }),
+        null_ls.builtins.formatting.prettier.with({ prefer_local = true })
     },
 })

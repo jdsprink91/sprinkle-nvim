@@ -155,6 +155,7 @@ return require('packer').startup(function(use)
     use { "mfussenegger/nvim-dap-python", requires = { "mfussenegger/nvim-dap" } }
     use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
 
+    -- helps with repeating thing
     use { "tpope/vim-repeat" }
 
     -- taking a beeg leap here
@@ -165,6 +166,11 @@ return require('packer').startup(function(use)
         config = function()
             require("leap").add_default_mappings()
         end
+    }
+
+    -- gives us some keybindings that help with navigation
+    use {
+        'tpope/vim-unimpaired'
     }
 
     -- Automatically set up your configuration after cloning packer.nvim

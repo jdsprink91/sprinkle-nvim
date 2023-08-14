@@ -18,5 +18,15 @@ require("nvim-treesitter.configs").setup({
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
     },
-
+    textobjects = {
+        -- NOTE: select only works in visual mode
+        select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+                ["af"] = { query = "@function.outer", desc = "Select function including the function definition" },
+                ["if"] = { query = "@function.inner", desc = "Select the inner part of a function" }
+            }
+        }
+    }
 })

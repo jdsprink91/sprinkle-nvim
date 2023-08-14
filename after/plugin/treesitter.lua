@@ -20,6 +20,7 @@ require("nvim-treesitter.configs").setup({
     },
     textobjects = {
         -- NOTE: select only works in visual mode
+        -- see more at https://github.com/nvim-treesitter/nvim-treesitter-textobjects
         select = {
             enable = true,
             lookahead = true,

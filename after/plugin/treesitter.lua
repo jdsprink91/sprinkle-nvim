@@ -26,7 +26,9 @@ require("nvim-treesitter.configs").setup({
             lookahead = true,
             keymaps = {
                 ["af"] = { query = "@function.outer", desc = "Select function including the function definition" },
-                ["if"] = { query = "@function.inner", desc = "Select the inner part of a function" }
+                ["if"] = { query = "@function.inner", desc = "Select the inner part of a function" },
+                ["ac"] = { query = "@class.outer", desc = "Select class including class definition" },
+                ["ic"] = { query = "@class.inner", desc = "Select the inner part of a class" }
             }
         }
     }

@@ -64,6 +64,7 @@ return require('packer').startup(function(use)
         end
     }
     use { 'f-person/git-blame.nvim' }
+    use { 'airblade/vim-gitgutter' }
 
     -- lsps
     use {

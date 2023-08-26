@@ -7,41 +7,44 @@ local actions = require('telescope.actions')
 telescope.setup {
     defaults = {
         file_ignore_patterns = { ".git/" }
+    },
+    pickers = {
+        find_files = {
+            initial_mode = "normal",
+            hidden = true
+        },
+        git_files = {
+            initial_mode = "normal",
+            hidden = true
+        },
+        oldfiles = {
+            initial_mode = "normal",
+            hidden = true
+        },
+        grep_string = {
+            initial_mode = "normal"
+        },
+        live_grep = {
+            initial_mode = "normal"
+        },
+        buffers = {
+            initial_mode = "normal"
+        },
+        lsp_references = {
+            initial_mode = "normal"
+        }
     }
 }
 
-vim.keymap.set('n', '<leader>ff', "<CMD>Telescope find_files hidden=true<CR>", {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>gf', "<CMD>Telescope git_files hidden=true<CR>", {})
-vim.keymap.set('n', '<leader>ps', function()
-    builtin.grep_string({ search = vim.fn.input("Grep > ") });
-end)
 
 -- FILE BROWSER PLUGIN
 telescope.load_extension "file_browser"
 
--- vim.keymap.set("n", "<leader>fb", function() telescope.extensions.file_browser.file_browser() end, { noremap = true})
--- open file_browser with the path of the current buffer
-vim.api.nvim_set_keymap(
-    "n",
-    "<space>hd",
-    ":Telescope file_browser <CR>",
-    { noremap = true }
-)
-
-vim.api.nvim_set_keymap(
-    "n",
-    "<space>cd",
-    ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
-    { noremap = true }
-)
 
 -- SHOW ME MAH BUFFERS
 local m = {}
 m.buffers = function(opts)
     opts = opts or {}
-    opts.previewer = false
     -- opts.sort_lastused = true
     -- opts.show_all_buffers = true
     -- opts.shorten_path = false
@@ -67,7 +70,18 @@ m.buffers = function(opts)
         return true
     end
     -- we can't have the nice ui here because C-d moves file previewer
-    builtin.buffers(require('telescope.themes').get_dropdown(opts))
+    builtin.buffers(opts)
 end
 
+-- all the key maps
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>gf', builtin.git_files, {})
+vim.keymap.set('n', '<leader>of', builtin.oldfiles, {})
+vim.keymap.set('n', '<leader>ps', builtin.grep_string, {})
+vim.keymap.set('n', '<leader>lg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', m.buffers, {})
+vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
+
+-- open file_browser with the path of the current buffer
+vim.keymap.set("n", "<leader>hd", ":Telescope file_browser <CR>")
+vim.keymap.set("n", "<leader>cd", ":Telescope file_browser path=%:p:h select_buffer=true<CR>")

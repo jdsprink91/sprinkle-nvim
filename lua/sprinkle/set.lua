@@ -31,4 +31,3 @@ vim.opt.hidden = true
 
 vim.g.python3_host_prog = '/Users/jasonsprinkle/.pyenv/versions/py3nvim/bin/python'
 
-vim.api.nvim_set_hl(0, 'Cursor', { reverse = true })

@@ -1,16 +1,13 @@
 local lsp = require("lsp-zero")
 local lspconfig = require("lspconfig")
 
-lsp.preset('recommended')
+lsp.preset({})
 
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr }
-    lsp.default_keymaps(opts)
-    vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-    vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-    vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
+    lsp.default_keymaps({ buffer = bufnr, omit = { "gs" } })
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-    vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+    vim.keymap.set("n", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
     vim.keymap.set({ 'n', 'x' }, '<leader>pf', function()
         vim.lsp.buf.format({ async = false, timeout_ms = 10000 })

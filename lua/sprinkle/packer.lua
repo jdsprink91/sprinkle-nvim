@@ -175,7 +175,9 @@ return require('packer').startup(function(use)
         -- one two three repeater!
         requires = { "tpope/vim-repeat" },
         config = function()
-            require("leap").add_default_mappings()
+            local leap = require('leap')
+            leap.add_default_mappings()
+            leap.opts.highlight_unlabeled_phase_one_targets = true
         end
     }
 

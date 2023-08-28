@@ -37,7 +37,7 @@ return require('packer').startup(function(use)
     use { "savq/melange-nvim", as = "melange", config = function()
         vim.opt.termguicolors = true
         vim.cmd.colorscheme("melange")
-        -- need to do this to make the first autojump of 
+        -- need to do this to make the first autojump of
         -- leap vim behave as expected
         local bg = vim.opt.background:get()
         local palette = require('melange/palettes/' .. bg)

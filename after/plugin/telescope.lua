@@ -10,29 +10,14 @@ telescope.setup {
     },
     pickers = {
         find_files = {
-            initial_mode = "normal",
             hidden = true
         },
         git_files = {
-            initial_mode = "normal",
             hidden = true
         },
         oldfiles = {
-            initial_mode = "normal",
             hidden = true
         },
-        grep_string = {
-            initial_mode = "normal"
-        },
-        live_grep = {
-            initial_mode = "normal"
-        },
-        buffers = {
-            initial_mode = "normal"
-        },
-        lsp_references = {
-            initial_mode = "normal"
-        }
     }
 }
 

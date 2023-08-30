@@ -7,7 +7,7 @@ return {
         },
         opts = {
             -- A list of parser names, or "all" (the four listed parsers should always be installed)
-            ensure_installed = { "javascript", "typescript", "c", "lua", "vim", "python", "html", "css" },
+            ensure_installed = { "javascript", "typescript", "c", "lua", "vim", "python", "html", "htmldjango", "css" },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,

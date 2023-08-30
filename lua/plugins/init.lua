@@ -41,33 +41,6 @@ return {
     },
     'airblade/vim-gitgutter',
 
-    -- lsps
-    {
-        'VonHeikemen/lsp-zero.nvim',
-        branch = 'v2.x',
-        dependencies = {
-            -- LSP Support
-            { 'neovim/nvim-lspconfig' },             -- Required
-            { 'williamboman/mason.nvim' },           -- Optional
-            { 'williamboman/mason-lspconfig.nvim' }, -- Optional
-
-            -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },         -- Required
-            { 'hrsh7th/cmp-nvim-lsp' },     -- Required
-            { 'hrsh7th/cmp-buffer' },       -- Optional
-            { 'hrsh7th/cmp-path' },         -- Optional
-            { 'saadparwaiz1/cmp_luasnip' }, -- Optional
-            { 'hrsh7th/cmp-nvim-lua' },     -- Optional
-
-            -- Snippets
-            { 'L3MON4D3/LuaSnip' },             -- Required
-            { 'rafamadriz/friendly-snippets' }, -- Optional
-        }
-    },
-
-    -- for mah formatters that aren't supported
-    'jose-elias-alvarez/null-ls.nvim',
-
     -- visual help with tabs and spaces
     {
         'Yggdroot/indentLine',
@@ -149,9 +122,6 @@ return {
     {
         "m4xshen/hardtime.nvim",
         dependencies = { 'MunifTanjim/nui.nvim', "nvim-lua/plenary.nvim" },
-        config = function()
-            require('hardtime').setup()
-        end
     },
 
 }

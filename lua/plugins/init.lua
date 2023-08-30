@@ -1,8 +1,6 @@
 return {
     'nvim-lua/plenary.nvim',
     'nvim-tree/nvim-web-devicons',
-
-    -- theme
     {
         "savq/melange-nvim",
         as = "melange",
@@ -16,25 +14,21 @@ return {
             vim.api.nvim_set_hl(0, 'Cursor', { bg = palette.b.red, fg = palette.a.bg })
         end
     },
-
-    -- show me my undo history
     {
         'mbbill/undotree',
-        config = function()
-            vim.keymap.set('n', "<leader>u", vim.cmd.UndotreeToggle)
-        end
+        keys = {
+            { "<leader>u", vim.cmd.UndotreeToggle }
+        }
     },
-
-    -- git
     {
         'tpope/vim-fugitive',
-        config = function()
-            vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
-        end
+        keys = {
+            { "<leader>gs", vim.cmd.Git }
+        }
     },
     {
         'f-person/git-blame.nvim',
-        keys = { { "<leader>gb", ":GitBlameToggle<CR>" }, },
+        keys = { { "<leader>gb", vim.cmd.GitBlameToggle }, },
         opts = {
             enabled = false
         }
@@ -55,9 +49,11 @@ return {
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons', opt = true },
-        config = function()
-            require("lualine").setup({ options = { theme = 'melange' } })
-        end
+        opts = {
+            options = {
+                theme = 'melange'
+            }
+        }
     },
 
     -- that sweet sweet surround plugin
@@ -70,19 +66,10 @@ return {
     },
 
     -- that sweet sweet commenting help
-    {
-        'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end
-    },
+    'numToStr/Comment.nvim',
 
     -- that sweet sweet autopair
-    {
-        "windwp/nvim-autopairs",
-        config = function() require("nvim-autopairs").setup {} end
-    },
-
+    "windwp/nvim-autopairs",
 
     -- session management
     {

@@ -104,11 +104,6 @@ return {
         config = function() require("nvim-autopairs").setup {} end
     },
 
-    -- entering in the ART ZONE
-    {
-        "goolord/alpha-nvim",
-        dependencies = { 'nvim-tree/nvim-web-devicons' }
-    },
 
     -- session management
     {
@@ -125,10 +120,6 @@ return {
         end
     },
 
-    -- gimme dat debugger
-    "mfussenegger/nvim-dap",
-    { "mfussenegger/nvim-dap-python", dependencies = { "mfussenegger/nvim-dap" } },
-    { "rcarriga/nvim-dap-ui",         dependencies = { "mfussenegger/nvim-dap" } },
 
     -- helps with repeating thing
     "tpope/vim-repeat",

@@ -1,81 +1,80 @@
-local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-    if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-        vim.cmd [[packadd packer.nvim]]
-        return true
-    end
-    return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    -- bootstrap lazy.nvim
+    -- stylua: ignore
+    vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable",
+        lazypath })
 end
+vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
-local packer_bootstrap = ensure_packer()
+-- I guess lazy vim needs this?
+vim.g.mapleader = " "
 
-return require('packer').startup(function(use)
-    -- Packer can manage itself
-    use { 'wbthomason/packer.nvim' }
-
-    -- I think this is a bunch of helper functions
-    use { 'nvim-lua/plenary.nvim' }
-
-    -- the lil icons that show up everywhere
-    use { 'nvim-tree/nvim-web-devicons' }
+require('lazy').setup({
+    'nvim-lua/plenary.nvim',
+    'nvim-tree/nvim-web-devicons',
 
     -- telescope and telescope accessories
-    use {
+    {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.1',
-        requires = { { 'nvim-lua/plenary.nvim' } }
-    }
+        dependencies = { { 'nvim-lua/plenary.nvim' } }
+    },
 
-    use {
+    {
         "nvim-telescope/telescope-file-browser.nvim",
-        requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
-    }
+        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+    },
 
     -- theme
-    use { "savq/melange-nvim", as = "melange", config = function()
-        vim.opt.termguicolors = true
-        vim.cmd.colorscheme("melange")
-        -- need to do this to make the first autojump of
-        -- leap vim behave as expected
-        local bg = vim.opt.background:get()
-        local palette = require('melange/palettes/' .. bg)
-        vim.api.nvim_set_hl(0, 'Cursor', { bg = palette.b.red, fg = palette.a.bg })
-    end }
+    {
+        "savq/melange-nvim",
+        as = "melange",
+        config = function()
+            vim.opt.termguicolors = true
+            vim.cmd.colorscheme("melange")
+            -- need to do this to make the first autojump of
+            -- leap vim behave as expected
+            local bg = vim.opt.background:get()
+            local palette = require('melange/palettes/' .. bg)
+            vim.api.nvim_set_hl(0, 'Cursor', { bg = palette.b.red, fg = palette.a.bg })
+        end
+    },
 
     -- syntax highlighting
-    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-    use { 'nvim-treesitter/nvim-treesitter-context' }
-    use({
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        after = "nvim-treesitter",
-        requires = "nvim-treesitter/nvim-treesitter",
-    })
+    {
+        'nvim-treesitter/nvim-treesitter',
+        build = ':TSUpdate',
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter-textobjects",
+
+        }
+    },
+    'nvim-treesitter/nvim-treesitter-context',
 
     -- show me my undo history
-    use {
+    {
         'mbbill/undotree',
         config = function()
-            vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
+            vim.keymap.set('n', "<leader>u", vim.cmd.UndotreeToggle)
         end
-    }
+    },
 
     -- git
-    use {
+    {
         'tpope/vim-fugitive',
         config = function()
             vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
         end
-    }
-    use { 'f-person/git-blame.nvim' }
-    use { 'airblade/vim-gitgutter' }
+    },
+    'f-person/git-blame.nvim',
+    'airblade/vim-gitgutter',
 
     -- lsps
-    use {
+    {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
-        requires = {
+        dependencies = {
             -- LSP Support
             { 'neovim/nvim-lspconfig' },             -- Required
             { 'williamboman/mason.nvim' },           -- Optional
@@ -93,63 +92,63 @@ return require('packer').startup(function(use)
             { 'L3MON4D3/LuaSnip' },             -- Required
             { 'rafamadriz/friendly-snippets' }, -- Optional
         }
-    }
+    },
 
     -- for mah formatters that aren't supported
-    use { 'jose-elias-alvarez/null-ls.nvim' }
+    'jose-elias-alvarez/null-ls.nvim',
 
     -- visual help with tabs and spaces
-    use {
+    {
         'Yggdroot/indentLine',
         config = function()
             vim.g.indentLine_fileTypeExclude = {
                 "alpha",
             }
         end
-    }
+    },
 
     -- statusline plugin
-    use {
+    {
         'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        dependencies = { 'nvim-tree/nvim-web-devicons', opt = true },
         config = function()
             require("lualine").setup({ options = { theme = 'melange' } })
         end
-    }
+    },
 
     -- that sweet sweet surround plugin
-    use {
+    {
         'tpope/vim-surround',
         config = function()
             vim.g.surround_115 = "**\r**"  -- 115 is the ASCII code for 's'
             vim.g.surround_47 = "/* \r */" -- 47 is /
         end
-    }
+    },
 
     -- that sweet sweet commenting help
-    use {
+    {
         'numToStr/Comment.nvim',
         config = function()
             require('Comment').setup()
         end
-    }
+    },
 
     -- that sweet sweet autopair
-    use {
+    {
         "windwp/nvim-autopairs",
         config = function() require("nvim-autopairs").setup {} end
-    }
+    },
 
     -- entering in the ART ZONE
-    use {
+    {
         "goolord/alpha-nvim",
-        requires = { 'nvim-tree/nvim-web-devicons' }
-    }
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
+    },
 
     -- session management
-    use {
+    {
         "Shatur/neovim-session-manager",
-        requires = { 'nvim-lua/plenary.nvim' },
+        dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             local config = require('session_manager.config')
 
@@ -159,36 +158,38 @@ return require('packer').startup(function(use)
                 autoload_mode = config.AutoloadMode.Disabled,
             })
         end
-    }
+    },
 
     -- gimme dat debugger
-    use { "mfussenegger/nvim-dap" }
-    use { "mfussenegger/nvim-dap-python", requires = { "mfussenegger/nvim-dap" } }
-    use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
+    "mfussenegger/nvim-dap",
+    { "mfussenegger/nvim-dap-python", dependencies = { "mfussenegger/nvim-dap" } },
+    { "rcarriga/nvim-dap-ui",         dependencies = { "mfussenegger/nvim-dap" } },
 
     -- helps with repeating thing
-    use { "tpope/vim-repeat" }
+    "tpope/vim-repeat",
 
     -- taking a beeg leap here
-    use {
+    {
         "ggandor/leap.nvim",
         -- one two three repeater!
-        requires = { "tpope/vim-repeat" },
+        dependencies = { "tpope/vim-repeat" },
         config = function()
             local leap = require('leap')
             leap.add_default_mappings()
             leap.opts.highlight_unlabeled_phase_one_targets = true
         end
-    }
+    },
 
     -- gives us some keybindings that help with navigation
-    use {
-        'tpope/vim-unimpaired'
-    }
+    'tpope/vim-unimpaired',
 
-    -- Automatically set up your configuration after cloning packer.nvim
-    -- Put this at the end after all plugins
-    if packer_bootstrap then
-        require('packer').sync()
-    end
-end)
+    -- help make myself a lil more efficient
+    {
+        "m4xshen/hardtime.nvim",
+        dependencies = { 'MunifTanjim/nui.nvim', "nvim-lua/plenary.nvim" },
+        config = function()
+            require('hardtime').setup()
+        end
+    },
+
+})

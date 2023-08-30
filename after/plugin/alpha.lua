@@ -24,7 +24,7 @@ dashboard.section.buttons.val = {
     dashboard.button("f", "📁  > Find File", ":Telescope find_files hidden=true<CR>"),
     dashboard.button("s", "🔎  > Search", ":Telescope live_grep<cr>"),
     dashboard.button("l", "📌  > Load Last Session", ":SessionManager load_current_dir_session<CR>"),
-    dashboard.button("u", "🔌  > Update Plugins", ":PackerSync<CR>"),
+    dashboard.button("u", "🔌  > Update Plugins", ":Lazy sync<CR>"),
     dashboard.button("q", "🛑  > Quit Neovim", ":qa<CR>"),
 }
 

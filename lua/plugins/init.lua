@@ -1,18 +1,9 @@
 return {
-    'nvim-lua/plenary.nvim',
-    'nvim-tree/nvim-web-devicons',
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
     {
         "savq/melange-nvim",
         as = "melange",
-        config = function()
-            vim.opt.termguicolors = true
-            vim.cmd.colorscheme("melange")
-            -- need to do this to make the first autojump of
-            -- leap vim behave as expected
-            local bg = vim.opt.background:get()
-            local palette = require('melange/palettes/' .. bg)
-            vim.api.nvim_set_hl(0, 'Cursor', { bg = palette.b.red, fg = palette.a.bg })
-        end
     },
     {
         'mbbill/undotree',
@@ -33,7 +24,7 @@ return {
             enabled = false
         }
     },
-    'airblade/vim-gitgutter',
+    "airblade/vim-gitgutter",
 
     -- visual help with tabs and spaces
     {
@@ -51,7 +42,7 @@ return {
         dependencies = { 'nvim-tree/nvim-web-devicons', opt = true },
         opts = {
             options = {
-                theme = 'melange'
+                theme = "melange"
             }
         }
     },
@@ -65,10 +56,13 @@ return {
         end
     },
 
-    -- that sweet sweet commenting help
-    'numToStr/Comment.nvim',
-
-    -- that sweet sweet autopair
+    {
+        "numToStr/Comment.nvim",
+        config = function()
+            -- shouldn't have to do this, but I do
+            require('Comment').setup()
+        end
+    },
     "windwp/nvim-autopairs",
 
     -- session management
@@ -103,7 +97,7 @@ return {
     },
 
     -- gives us some keybindings that help with navigation
-    'tpope/vim-unimpaired',
+    "tpope/vim-unimpaired",
 
     -- help make myself a lil more efficient
     {

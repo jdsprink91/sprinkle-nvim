@@ -67,3 +67,12 @@ vim.api.nvim_create_autocmd({
         end
     end
 })
+
+-- get zesty
+vim.opt.termguicolors = true
+vim.cmd("colorscheme melange")
+-- need to do this to make the first autojump of
+-- leap vim behave as expected
+local bg = vim.opt.background:get()
+local palette = require('melange/palettes/' .. bg)
+vim.api.nvim_set_hl(0, 'Cursor', { bg = palette.b.red, fg = palette.a.bg })

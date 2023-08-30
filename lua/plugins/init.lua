@@ -56,14 +56,8 @@ return {
         end
     },
 
-    {
-        "numToStr/Comment.nvim",
-        config = function()
-            -- shouldn't have to do this, but I do
-            require('Comment').setup()
-        end
-    },
-    { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup() end },
+    { "numToStr/Comment.nvim", config = true, },
+    { "windwp/nvim-autopairs", config = true },
 
     -- session management
     {

@@ -32,7 +32,13 @@ return {
             vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
         end
     },
-    'f-person/git-blame.nvim',
+    {
+        'f-person/git-blame.nvim',
+        keys = { { "<leader>gb", ":GitBlameToggle<CR>" }, },
+        opts = {
+            enabled = false
+        }
+    },
     'airblade/vim-gitgutter',
 
     -- lsps

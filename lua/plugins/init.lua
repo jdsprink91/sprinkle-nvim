@@ -2,18 +2,6 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-tree/nvim-web-devicons',
 
-    -- telescope and telescope accessories
-    {
-        'nvim-telescope/telescope.nvim',
-        tag = '0.1.1',
-        dependencies = { { 'nvim-lua/plenary.nvim' } }
-    },
-
-    {
-        "nvim-telescope/telescope-file-browser.nvim",
-        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
-    },
-
     -- theme
     {
         "savq/melange-nvim",

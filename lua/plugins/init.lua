@@ -17,17 +17,6 @@ return {
         end
     },
 
-    -- syntax highlighting
-    {
-        'nvim-treesitter/nvim-treesitter',
-        build = ':TSUpdate',
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter-textobjects",
-
-        }
-    },
-    'nvim-treesitter/nvim-treesitter-context',
-
     -- show me my undo history
     {
         'mbbill/undotree',

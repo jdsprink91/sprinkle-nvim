@@ -68,7 +68,6 @@ vim.api.nvim_create_autocmd({
     end
 })
 
--- get zesty
 vim.opt.termguicolors = true
 vim.cmd("colorscheme melange")
 -- need to do this to make the first autojump of

@@ -11,6 +11,8 @@ return {
             { "<leader>u", vim.cmd.UndotreeToggle }
         }
     },
+
+    -- git plugins
     {
         'tpope/vim-fugitive',
         keys = {

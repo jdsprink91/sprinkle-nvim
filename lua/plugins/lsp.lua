@@ -38,13 +38,20 @@ return {
                 end, opts)
             end)
 
-            lspconfig.tailwindcss.setup({
+            lspconfig.tailwindcss.setup {
                 init_options = {
                     userLanguages = {
                         htmldjango = "html"
                     }
                 }
-            })
+            }
+
+            lspconfig.html.setup {
+                filetypes = { "html", "htmldjango" },
+                init_options = {
+                    provideFormatter = false
+                }
+            }
 
             lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 

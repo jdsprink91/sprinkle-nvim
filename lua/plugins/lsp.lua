@@ -25,6 +25,9 @@ return {
         config = function()
             local lsp = require("lsp-zero")
             local lspconfig = require("lspconfig")
+            local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+            capabilities.textDocument.completion.completionItem.snippetSupport = true
+            local schemastore = require("schemastore")
 
             lsp.preset({})
 
@@ -43,11 +46,12 @@ return {
                 init_options = {
                     userLanguages = {
                         htmldjango = "html"
-                    }
+                    },
                 }
             }
 
             lspconfig.html.setup {
+                capabilities = capabilities,
                 filetypes = { "html", "htmldjango" },
                 init_options = {
                     provideFormatter = false
@@ -56,8 +60,20 @@ return {
 
             lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 
+            lspconfig.jsonls.setup {
+                capabilities = capabilities,
+                settings = {
+                    json = {
+                        validate = {
+                            enable = true
+                        },
+                        schemas = schemastore.json.schemas(),
+                    }
+                }
+            }
+
             lspconfig.yamlls.setup {
-                capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+                capabilities = capabilities,
                 settings = {
                     yaml = {
                         format = {
@@ -70,7 +86,7 @@ return {
                             url = "",
                             enable = false,
                         },
-                        schemas = require('schemastore').yaml.schemas(),
+                        schemas = schemastore.yaml.schemas(),
                     },
                 },
             }

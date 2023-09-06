@@ -56,11 +56,6 @@ return {
 
             lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 
-            -- TODO: figure out how to do schemas
-            -- docker-compose
-            -- kubernetes
-            -- helm
-            -- kustomize
             lspconfig.yamlls.setup {
                 capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
                 settings = {

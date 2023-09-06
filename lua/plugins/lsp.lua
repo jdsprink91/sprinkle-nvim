@@ -1,5 +1,6 @@
 return {
     -- lsps
+    "b0o/schemastore.nvim",
     {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
@@ -54,6 +55,30 @@ return {
             }
 
             lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+
+            -- TODO: figure out how to do schemas
+            -- docker-compose
+            -- kubernetes
+            -- helm
+            -- kustomize
+            lspconfig.yamlls.setup {
+                capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+                settings = {
+                    yaml = {
+                        format = {
+                            enable = true,
+                        },
+                        validate = true,
+                        hover = true,
+                        completion = true,
+                        schemaStore = {
+                            url = "",
+                            enable = false,
+                        },
+                        schemas = require('schemastore').yaml.schemas(),
+                    },
+                },
+            }
 
             lspconfig.pylsp.setup {
                 settings = {

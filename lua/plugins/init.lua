@@ -29,14 +29,7 @@ return {
     "airblade/vim-gitgutter",
 
     -- visual help with tabs and spaces
-    {
-        'Yggdroot/indentLine',
-        config = function()
-            vim.g.indentLine_fileTypeExclude = {
-                "alpha",
-            }
-        end
-    },
+    'lukas-reineke/indent-blankline.nvim',
 
     -- statusline plugin
     {

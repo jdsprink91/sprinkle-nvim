@@ -75,3 +75,9 @@ vim.cmd("colorscheme melange")
 local bg = vim.opt.background:get()
 local palette = require('melange/palettes/' .. bg)
 vim.api.nvim_set_hl(0, 'Cursor', { bg = palette.b.red, fg = palette.a.bg })
+
+-- indentline help
+vim.g.indent_blankline_char = "¦"
+vim.g.indent_blankline_filetype_exclude = {
+    "alpha",
+}

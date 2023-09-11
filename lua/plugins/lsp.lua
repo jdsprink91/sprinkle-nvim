@@ -3,7 +3,7 @@ return {
     "b0o/schemastore.nvim",
     {
         'VonHeikemen/lsp-zero.nvim',
-        branch = 'v2.x',
+        branch = 'v3.x',
         dependencies = {
             -- LSP Support
             { 'neovim/nvim-lspconfig' },             -- Required
@@ -23,17 +23,17 @@ return {
             { 'rafamadriz/friendly-snippets' }, -- Optional
         },
         config = function()
-            local lsp = require("lsp-zero")
+            local lsp_zero = require("lsp-zero")
             local lspconfig = require("lspconfig")
+            local mason = require("mason")
+            local mason_lspconfig = require("mason-lspconfig")
             local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
             capabilities.textDocument.completion.completionItem.snippetSupport = true
             local schemastore = require("schemastore")
 
-            lsp.preset({})
-
-            lsp.on_attach(function(_, bufnr)
+            lsp_zero.on_attach(function(_, bufnr)
                 local opts = { buffer = bufnr }
-                lsp.default_keymaps({ buffer = bufnr, omit = { "gs" } })
+                lsp_zero.default_keymaps({ buffer = bufnr, omit = { "gs" } })
                 vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
                 vim.keymap.set("n", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
@@ -42,90 +42,108 @@ return {
                 end, opts)
             end)
 
-            lspconfig.tailwindcss.setup {
-                init_options = {
-                    userLanguages = {
-                        htmldjango = "html"
-                    },
-                }
-            }
+            mason.setup {}
+            mason_lspconfig.setup {
+                ensure_installed = {},
+                handlers = {
+                    lsp_zero.default_setup,
+                    html = function()
+                        lspconfig.html.setup {
+                            capabilities = capabilities,
+                            filetypes = { "html", "htmldjango" },
+                            init_options = {
+                                provideFormatter = false
+                            }
+                        }
+                    end,
+                    eslint = function()
+                        lspconfig.eslint.setup {
+                            on_attach = function(client)
+                                -- turn on that eslint is a formatting provider for the appropriate
+                                -- file types
+                                client.server_capabilities.documentFormattingProvider = true
+                            end
+                        }
+                    end,
+                    jsonls = function()
+                        lspconfig.jsonls.setup {
+                            capabilities = capabilities,
+                            settings = {
+                                json = {
+                                    validate = {
+                                        enable = true
+                                    },
+                                    schemas = schemastore.json.schemas(),
+                                }
+                            }
+                        }
+                    end,
+                    lua_ls = function()
+                        lspconfig.lua_ls.setup(lsp_zero.nvim_lua_ls())
+                    end,
+                    pylsp = function()
+                        lspconfig.pylsp.setup {
+                            settings = {
+                                pylsp = {
+                                    configurationSources = { 'flake8' },
+                                    plugins = {
+                                        -- we don't care about these, we use flake8
+                                        pycodestyle = { enabled = false },
+                                        mccabe = { enabled = false },
+                                        pyflakes = { enabled = false },
 
-            lspconfig.html.setup {
-                capabilities = capabilities,
-                filetypes = { "html", "htmldjango" },
-                init_options = {
-                    provideFormatter = false
-                }
-            }
-
-            lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
-
-            lspconfig.jsonls.setup {
-                capabilities = capabilities,
-                settings = {
-                    json = {
-                        validate = {
-                            enable = true
-                        },
-                        schemas = schemastore.json.schemas(),
-                    }
-                }
-            }
-
-            lspconfig.yamlls.setup {
-                capabilities = capabilities,
-                settings = {
-                    yaml = {
-                        format = {
-                            enable = true,
-                        },
-                        validate = true,
-                        hover = true,
-                        completion = true,
-                        schemaStore = {
-                            url = "",
-                            enable = false,
-                        },
-                        schemas = schemastore.yaml.schemas(),
-                    },
-                },
-            }
-
-            lspconfig.pylsp.setup {
-                settings = {
-                    pylsp = {
-                        configurationSources = { 'flake8' },
-                        plugins = {
-                            -- we don't care about these, we use flake8
-                            pycodestyle = { enabled = false },
-                            mccabe = { enabled = false },
-                            pyflakes = { enabled = false },
-
-                            -- literati related config
-                            flake8 = {
-                                enabled = false,
+                                        -- literati related config
+                                        flake8 = {
+                                            enabled = false,
+                                        },
+                                    }
+                                }
+                            }
+                        }
+                    end,
+                    tailwindcss = function()
+                        lspconfig.tailwindcss.setup {
+                            init_options = {
+                                userLanguages = {
+                                    htmldjango = "html"
+                                },
+                            }
+                        }
+                    end,
+                    yamlls = function()
+                        lspconfig.yamlls.setup {
+                            capabilities = capabilities,
+                            settings = {
+                                yaml = {
+                                    format = {
+                                        enable = true,
+                                    },
+                                    validate = true,
+                                    hover = true,
+                                    completion = true,
+                                    schemaStore = {
+                                        url = "",
+                                        enable = false,
+                                    },
+                                    schemas = schemastore.yaml.schemas(),
+                                },
                             },
                         }
-                    }
+                    end
                 }
-            }
 
-            lspconfig.eslint.setup {
-                on_attach = function(client)
-                    -- turn on that eslint is a formatting provider for the appropriate
-                    -- file types
-                    client.server_capabilities.documentFormattingProvider = true
-                end
             }
-
-            lsp.setup()
 
             -- setup using enter for autocomplete selection
             local cmp = require('cmp')
+            local cmp_action = lsp_zero.cmp_action()
             cmp.setup({
+                formatting = lsp_zero.cmp_format(),
                 mapping = {
                     -- setting select to true means it will select the first item
                     ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                    ['<Tab>'] = cmp_action.tab_complete(),
+                    ['<S-Tab>'] = cmp_action.select_prev_or_fallback(),
                 },
                 enabled = function()
                     -- it was getting annoying to see cmp work inside comments, this disables that

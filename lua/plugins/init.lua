@@ -95,4 +95,6 @@ return {
         config = true
     },
 
+    -- OH HI MARKS
+    { "chentoast/marks.nvim", config = true }
 }

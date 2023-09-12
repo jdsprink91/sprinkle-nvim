@@ -2,7 +2,7 @@ return {
     -- telescope and telescope accessories
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.1',
+        tag = '0.1.2',
         dependencies = { { 'nvim-lua/plenary.nvim' } },
         config = function()
             local telescope = require('telescope')
@@ -65,6 +65,7 @@ return {
             vim.keymap.set('n', '<leader>lg', builtin.live_grep, {})
             vim.keymap.set('n', '<leader>fb', m.buffers, {})
             vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
+            vim.keymap.set('n', '<leader>mm', builtin.marks, {})
         end
     },
     {

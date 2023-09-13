@@ -44,7 +44,7 @@ return {
 
             mason.setup {}
             mason_lspconfig.setup {
-                ensure_installed = {},
+                ensure_installed = { "html", "eslint", "jsonls", "lua_ls", "pylsp", "tailwindcss", "tsserver", "yamlls" },
                 handlers = {
                     lsp_zero.default_setup,
                     html = function()
@@ -109,6 +109,9 @@ return {
                                 },
                             }
                         }
+                    end,
+                    tsserver = function()
+                        lspconfig.tsserver.setup {}
                     end,
                     yamlls = function()
                         lspconfig.yamlls.setup {

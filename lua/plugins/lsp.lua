@@ -44,9 +44,15 @@ return {
 
             mason.setup {}
             mason_lspconfig.setup {
-                ensure_installed = { "html", "eslint", "jsonls", "lua_ls", "pylsp", "tailwindcss", "tsserver", "yamlls" },
+                ensure_installed = { "cssls", "html", "eslint", "jsonls", "lua_ls", "pylsp", "tailwindcss", "tsserver",
+                    "yamlls" },
                 handlers = {
                     lsp_zero.default_setup,
+                    cssls = function()
+                        lspconfig.cssls.setup {
+                            capabilities = capabilities
+                        }
+                    end,
                     html = function()
                         lspconfig.html.setup {
                             capabilities = capabilities,

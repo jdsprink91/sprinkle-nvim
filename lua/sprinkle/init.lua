@@ -11,6 +11,7 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 -- I guess lazy vim needs this?
 vim.g.mapleader = " "
 
+-- setup plugins
 require('lazy').setup('plugins')
 
 -- mr worldwide

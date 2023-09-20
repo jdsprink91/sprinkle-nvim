@@ -96,5 +96,7 @@ return {
     },
 
     -- OH HI MARKS
-    { "chentoast/marks.nvim", config = true }
+    { "chentoast/marks.nvim",        config = true },
+
+    { "shortcuts/no-neck-pain.nvim", version = "*" }
 }

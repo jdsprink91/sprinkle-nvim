@@ -98,5 +98,8 @@ return {
     -- OH HI MARKS
     { "chentoast/marks.nvim",        config = true },
 
-    { "shortcuts/no-neck-pain.nvim", version = "*" }
+    { "shortcuts/no-neck-pain.nvim", version = "*" },
+
+    -- autodetecting of tab widths and such
+    "tpope/vim-sleuth"
 }

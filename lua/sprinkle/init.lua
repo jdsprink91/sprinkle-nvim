@@ -43,7 +43,20 @@ require('lazy').setup({
     "airblade/vim-gitgutter",
 
     -- visual help with tabs and spaces
-    'lukas-reineke/indent-blankline.nvim',
+    {
+        'lukas-reineke/indent-blankline.nvim',
+        main = "ibl",
+        opts = {
+            indent = {
+                char = "¦"
+            },
+            exclude = {
+                filetypes = {
+                    "alpha"
+                }
+            }
+        }
+    },
 
     -- statusline plugin
     {
@@ -284,11 +297,6 @@ local bg = vim.opt.background:get()
 local palette = require('melange/palettes/' .. bg)
 vim.api.nvim_set_hl(0, 'Cursor', { bg = palette.b.red, fg = palette.a.bg })
 
--- indentline help
-vim.g.indent_blankline_char = "¦"
-vim.g.indent_blankline_filetype_exclude = {
-    "alpha",
-}
 
 -- LSPs
 local lsp_zero = require("lsp-zero")

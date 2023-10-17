@@ -271,7 +271,6 @@ vim.opt.foldenable = false
 -- some keymaps
 vim.keymap.set("n", "[w", "<C-w>W")
 vim.keymap.set("n", "]w", "<C-w>w")
-vim.keymap.set("n", "<leader>tc", ":NoNeckPain<CR>")
 
 -- if we're in a django project, always set these html files to be htmldjango
 vim.api.nvim_create_autocmd({

@@ -33,13 +33,7 @@ require('lazy').setup({
             { "<leader>gs", vim.cmd.Git }
         }
     },
-    {
-        'f-person/git-blame.nvim',
-        keys = { { "<leader>gb", vim.cmd.GitBlameToggle }, },
-        opts = {
-            enabled = false
-        }
-    },
+    'f-person/git-blame.nvim',
     "airblade/vim-gitgutter",
 
     -- visual help with tabs and spaces
@@ -61,12 +55,7 @@ require('lazy').setup({
     -- statusline plugin
     {
         'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons', opt = true },
-        opts = {
-            options = {
-                theme = "melange"
-            }
-        }
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
 
     -- that sweet sweet surround plugin
@@ -625,3 +614,21 @@ dashboard.section.buttons.val = {
 
 -- Send config to alpha
 alpha.setup(dashboard.opts)
+
+-- git blame
+vim.g.gitblame_display_virtual_text = 0 -- Disable virtual text
+local gitblame = require("gitblame")
+
+-- lualine
+local lualine = require("lualine")
+lualine.setup {
+    options = {
+        theme = "melange"
+    },
+    sections = {
+        lualine_x = {
+            { gitblame.get_current_blame_text, cond = gitblame.is_blame_text_available },
+            'encoding', 'fileformat', 'filetype'
+        }
+    }
+}

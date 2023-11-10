@@ -21,11 +21,15 @@ require('lazy').setup({
     -- },
     {
         "oxfist/night-owl.nvim",
-        lazy = false, -- make sure we load this during startup if it is your main colorscheme
+        lazy = false,    -- make sure we load this during startup if it is your main colorscheme
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
             -- load the colorscheme here
             vim.cmd.colorscheme("night-owl")
+            -- get this working with version three of indent blank line
+            vim.api.nvim_set_hl(0, "IblIndent", { link = 'IndentChar' })
+            vim.api.nvim_set_hl(0, "IblWhitespace", { link = 'IndentChar' })
+            vim.api.nvim_set_hl(0, "IblScope", { link = 'IndentContextChar' })
         end,
     },
     {
@@ -44,7 +48,7 @@ require('lazy').setup({
         }
     },
     'f-person/git-blame.nvim',
-    "airblade/vim-gitgutter",
+    'airblade/vim-gitgutter',
 
     -- visual help with tabs and spaces
     {
@@ -632,9 +636,6 @@ local gitblame = require("gitblame")
 -- lualine
 local lualine = require("lualine")
 lualine.setup {
-    options = {
-        theme = "night-owl"
-    },
     sections = {
         lualine_x = {
             { gitblame.get_current_blame_text, cond = gitblame.is_blame_text_available },

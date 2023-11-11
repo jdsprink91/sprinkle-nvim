@@ -15,10 +15,6 @@ vim.g.mapleader = " "
 require('lazy').setup({
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
-    -- {
-    --     "savq/melange-nvim",
-    --     as = "melange",
-    -- },
     {
         "oxfist/night-owl.nvim",
         lazy = false,    -- make sure we load this during startup if it is your main colorscheme
@@ -29,7 +25,7 @@ require('lazy').setup({
             -- get this working with version three of indent blank line
             vim.api.nvim_set_hl(0, "IblIndent", { link = 'IndentChar' })
             vim.api.nvim_set_hl(0, "IblWhitespace", { link = 'IndentChar' })
-            vim.api.nvim_set_hl(0, "IblScope", { link = 'IndentContextChar' })
+            vim.api.nvim_set_hl(0, "IblScope", { fg = '#7e97ac', bg = 'NONE' })
         end,
     },
     {
@@ -292,12 +288,6 @@ vim.api.nvim_create_autocmd({
 })
 
 vim.opt.termguicolors = true
--- vim.cmd("colorscheme melange")
--- need to do this to make the first autojump of
--- leap vim behave as expected
--- local bg = vim.opt.background:get()
--- local palette = require('melange/palettes/' .. bg)
--- vim.api.nvim_set_hl(0, 'Cursor', { bg = palette.b.red, fg = palette.a.bg })
 
 
 -- LSPs

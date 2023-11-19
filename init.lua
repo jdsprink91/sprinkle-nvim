@@ -20,12 +20,7 @@ require('lazy').setup({
         lazy = false,    -- make sure we load this during startup if it is your main colorscheme
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
-            -- load the colorscheme here
             vim.cmd.colorscheme("night-owl")
-            -- get this working with version three of indent blank line
-            vim.api.nvim_set_hl(0, "IblIndent", { link = 'IndentChar' })
-            vim.api.nvim_set_hl(0, "IblWhitespace", { link = 'IndentChar' })
-            vim.api.nvim_set_hl(0, "IblScope", { fg = '#7e97ac', bg = 'NONE' })
         end,
     },
     {
@@ -121,9 +116,6 @@ require('lazy').setup({
         config = true
     },
 
-    -- OH HI MARKS
-    { "chentoast/marks.nvim", config = true },
-
     -- autodetecting of tab widths and such
     "tpope/vim-sleuth",
 
@@ -164,7 +156,7 @@ require('lazy').setup({
         },
         opts = {
             -- A list of parser names, or "all" (the four listed parsers should always be installed)
-            ensure_installed = { "javascript", "typescript", "c", "lua", "vim", "python", "html", "htmldjango", "css" },
+            ensure_installed = { "javascript", "typescript", "lua", "vim", "python", "html", "htmldjango", "css", "jsdoc", "markdown", "yaml", "tsx", "toml", "json" },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,
@@ -189,8 +181,11 @@ require('lazy').setup({
                     enable = true,
                     lookahead = true,
                     keymaps = {
-                        ["af"] = { query = "@function.outer", desc =
-                        "Select function including the function definition" },
+                        ["af"] = {
+                            query = "@function.outer",
+                            desc =
+                            "Select function including the function definition"
+                        },
                         ["if"] = { query = "@function.inner", desc = "Select the inner part of a function" },
                         ["ac"] = { query = "@class.outer", desc = "Select class including class definition" },
                         ["ic"] = { query = "@class.inner", desc = "Select the inner part of a class" }
@@ -222,7 +217,16 @@ require('lazy').setup({
     -- dap and dap accessories
     {
         "mfussenegger/nvim-dap",
-        dependencies = { "mfussenegger/nvim-dap-python", "rcarriga/nvim-dap-ui" },
+        dependencies = {
+            "mfussenegger/nvim-dap-python",
+            "rcarriga/nvim-dap-ui",
+            { "mxsdev/nvim-dap-vscode-js", tag = "v1.1.0" },
+            {
+                "microsoft/vscode-js-debug",
+                tag = "v1.74.1",
+                build = "npm ci --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+            },
+        },
     },
 
     -- alpha
@@ -558,6 +562,32 @@ table.insert(require("dap").configurations.python, {
     },
     django = true
 })
+
+-- javascript dap
+require('dap-vscode-js').setup({
+    debugger_path = vim.fn.stdpath('data') .. '/lazy/vscode-js-debug',
+    adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
+})
+for _, language in ipairs({ 'typescript', 'javascript' }) do
+    dap.configurations[language] = {
+        {
+            type = "pwa-node",
+            request = "launch",
+            name = "Debug Jest Tests",
+            -- trace = true, -- include debugger info
+            runtimeExecutable = "node",
+            runtimeArgs = {
+                "./node_modules/jest/bin/jest.js",
+                "--runInBand",
+                "${relativeFileDirname}"
+            },
+            rootPath = "${workspaceFolder}",
+            cwd = "${workspaceFolder}",
+            console = "integratedTerminal",
+            internalConsoleOptions = "neverOpen",
+        }
+    }
+end
 
 vim.keymap.set('n', '<F5>', function() dap.continue() end)
 vim.keymap.set('n', '<F6>', function() dap.disconnect() end)

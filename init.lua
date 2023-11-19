@@ -564,6 +564,8 @@ table.insert(require("dap").configurations.python, {
 })
 
 -- javascript dap
+-- https://github.com/mxsdev/nvim-dap-vscode-js/issues/42#issuecomment-1519068066
+-- shout out to this dude who get things setup with lazy vim
 require('dap-vscode-js').setup({
     debugger_path = vim.fn.stdpath('data') .. '/lazy/vscode-js-debug',
     adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },

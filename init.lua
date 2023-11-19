@@ -544,7 +544,7 @@ dapPython.setup("python")
 -- here, we are inserting a new selectable configuration into our debugging option table
 -- this includes the information on how to look at things in a djangoproject FROM
 -- the djangoproject folder
-table.insert(require("dap").configurations.python, {
+table.insert(dap.configurations.python, {
     type = "python",
     request = "attach",
     connect = {

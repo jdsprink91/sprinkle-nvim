@@ -109,13 +109,6 @@ require('lazy').setup({
     -- gives us some keybindings that help with navigation
     "tpope/vim-unimpaired",
 
-    -- help make myself a lil more efficient
-    {
-        "m4xshen/hardtime.nvim",
-        dependencies = { 'MunifTanjim/nui.nvim', "nvim-lua/plenary.nvim" },
-        config = true
-    },
-
     -- autodetecting of tab widths and such
     "tpope/vim-sleuth",
 
@@ -235,6 +228,14 @@ require('lazy').setup({
         "goolord/alpha-nvim",
         dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
+
+    {
+        "kkoomen/vim-doge",
+        event = "BufRead",
+        config = function()
+            vim.cmd([[call doge#install()]])
+        end
+    }
 }, {})
 
 -- mr worldwide
@@ -579,11 +580,16 @@ for _, language in ipairs({ 'typescript', 'javascript' }) do
             name = "Debug Jest Tests",
             -- trace = true, -- include debugger info
             runtimeExecutable = "node",
-            runtimeArgs = {
-                "./node_modules/jest/bin/jest.js",
-                "--runInBand",
-                "${relativeFileDirname}"
-            },
+            runtimeArgs = function()
+                local args_string = vim.fn.input("Arguments: ")
+                local baseArgs = {
+                    "./node_modules/jest/bin/jest.js",
+                    "--runInBand",
+                    args_string
+                }
+
+                return baseArgs
+            end,
             rootPath = "${workspaceFolder}",
             cwd = "${workspaceFolder}",
             console = "integratedTerminal",
@@ -605,19 +611,12 @@ vim.keymap.set('n', '<Leader>lp',
 -- dap virtual text
 local dapVirtualText = require("nvim-dap-virtual-text")
 dapVirtualText.setup()
---
+
 -- dap ui
 local dapui = require("dapui")
 dapui.setup()
-dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open()
-end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close()
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close()
-end
+vim.keymap.set('n', '<leader>do', function() dapui.open() end)
+vim.keymap.set('n', '<leader>dc', function() dapui.close() end)
 
 -- alpha
 local alpha = require("alpha")

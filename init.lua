@@ -535,6 +535,7 @@ vim.keymap.set('n', '<leader>lg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', m.buffers, {})
 vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
 vim.keymap.set('n', '<leader>mm', builtin.marks, {})
+vim.keymap.set('n', '<leader>km', builtin.keymaps, {})
 
 -- DAP
 local dap = require('dap')

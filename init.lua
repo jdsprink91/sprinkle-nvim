@@ -106,9 +106,6 @@ require('lazy').setup({
         end
     },
 
-    -- gives us some keybindings that help with navigation
-    "tpope/vim-unimpaired",
-
     -- autodetecting of tab widths and such
     "tpope/vim-sleuth",
 
@@ -276,6 +273,8 @@ vim.opt.foldenable = false
 -- some keymaps
 vim.keymap.set("n", "[w", "<C-w>W")
 vim.keymap.set("n", "]w", "<C-w>w")
+vim.keymap.set("n", "[q", ":cprev<CR>")
+vim.keymap.set("n", "]q", ":cnext<CR>")
 
 -- if we're in a django project, always set these html files to be htmldjango
 vim.api.nvim_create_autocmd({

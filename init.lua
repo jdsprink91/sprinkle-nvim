@@ -373,8 +373,17 @@ mason_lspconfig.setup {
 
                             -- literati related config
                             flake8 = {
-                                enabled = false,
+                                enabled = true,
                             },
+                            isort = {
+                                enabled = true,
+                            },
+                            black = {
+                                enabled = true
+                            },
+                            pylsp_mypy = {
+                                enabled = true,
+                            }
                         }
                     }
                 }
@@ -450,24 +459,12 @@ null_ls.setup({
     debug = true,
     sources = {
         -- diagnostics
-        null_ls.builtins.diagnostics.flake8.with({ prefer_local = true }),
         null_ls.builtins.diagnostics.djlint.with({
             prefer_local = true,
             extra_args = {
                 "--profile=django",
             }
         }),
-        null_ls.builtins.diagnostics.mypy.with({
-            prefer_local = true,
-            extra_args = {
-                "--check-untyped-defs",
-                "--ignore-missing-imports",
-            },
-            timeout = 10000
-        }),
-        -- formatting
-        null_ls.builtins.formatting.black.with({ prefer_local = true }),
-        null_ls.builtins.formatting.isort.with({ prefer_local = true }),
         null_ls.builtins.formatting.djlint.with({ prefer_local = true, extra_args = { "--profile=django" } }),
         null_ls.builtins.formatting.prettier.with({ prefer_local = true })
     },

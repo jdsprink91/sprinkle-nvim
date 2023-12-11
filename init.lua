@@ -225,14 +225,6 @@ require('lazy').setup({
         "goolord/alpha-nvim",
         dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
-
-    {
-        "kkoomen/vim-doge",
-        event = "BufRead",
-        config = function()
-            vim.cmd([[call doge#install()]])
-        end
-    }
 }, {})
 
 -- mr worldwide
@@ -450,13 +442,6 @@ cmp.setup({
 -- null ls setup
 local null_ls = require("null-ls")
 null_ls.setup({
-    should_attach = function(bufnr)
-        -- I want to always ignore formatting / diagnostics in packages
-        -- this was breaking mypy which was annoying. Turns out, I just
-        -- it's better to not care about things we shouldn't care about
-        return not vim.api.nvim_buf_get_name(bufnr):match(".pyenv")
-    end,
-    debug = true,
     sources = {
         -- diagnostics
         null_ls.builtins.diagnostics.djlint.with({

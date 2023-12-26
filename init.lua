@@ -58,10 +58,7 @@ require('lazy').setup({
     },
 
     -- statusline plugin
-    {
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-    },
+    'nvim-lualine/lualine.nvim',
 
     -- that sweet sweet surround plugin
     {
@@ -78,7 +75,6 @@ require('lazy').setup({
     -- session management
     {
         "Shatur/neovim-session-manager",
-        dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             local config = require('session_manager.config')
 
@@ -146,7 +142,8 @@ require('lazy').setup({
         },
         opts = {
             -- A list of parser names, or "all" (the four listed parsers should always be installed)
-            ensure_installed = { "javascript", "typescript", "lua", "vim", "python", "html", "htmldjango", "css", "jsdoc", "markdown", "yaml", "tsx", "toml", "json" },
+            ensure_installed = { "javascript", "typescript", "lua", "vim", "python", "html", "htmldjango", "css",
+                "jsdoc", "markdown", "yaml", "tsx", "toml", "json" },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,
@@ -193,15 +190,12 @@ require('lazy').setup({
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.2',
-        dependencies = { { 'nvim-lua/plenary.nvim' } },
     },
+
+    -- oil, not vinegar
     {
-        "nvim-telescope/telescope-file-browser.nvim",
-        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-        keys = {
-            { "<leader>hd", ":Telescope file_browser<CR>" },
-            { "<leader>cd", ":Telescope file_browser path=%:p:h select_buffer=true<CR>" }
-        }
+        'stevearc/oil.nvim',
+        opts = {},
     },
 
     -- dap and dap accessories
@@ -221,10 +215,7 @@ require('lazy').setup({
     },
 
     -- alpha
-    {
-        "goolord/alpha-nvim",
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-    },
+    "goolord/alpha-nvim",
 }, {})
 
 -- mr worldwide
@@ -476,7 +467,6 @@ telescope.setup {
         },
     }
 }
-telescope.load_extension("file_browser")
 local m = {}
 m.buffers = function(opts)
     opts = opts or {}
@@ -648,3 +638,7 @@ lualine.setup {
         }
     }
 }
+
+-- oil
+require('oil').setup()
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })

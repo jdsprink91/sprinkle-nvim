@@ -142,7 +142,7 @@ require('lazy').setup({
         },
         opts = {
             -- A list of parser names, or "all" (the four listed parsers should always be installed)
-            ensure_installed = { "javascript", "typescript", "lua", "vim", "python", "html", "htmldjango", "css",
+            ensure_installed = { "astro", "javascript", "typescript", "lua", "vim", "python", "html", "htmldjango", "css",
                 "jsdoc", "markdown", "yaml", "tsx", "toml", "json" },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -300,8 +300,8 @@ end)
 
 mason.setup {}
 mason_lspconfig.setup {
-    ensure_installed = { "cssls", "html", "eslint", "jsonls", "lua_ls", "pylsp", "tailwindcss", "tsserver",
-        "yamlls" },
+    ensure_installed = { "astro", "cssls", "html", "eslint", "jsonls", "lua_ls", "pylsp", "tailwindcss",
+        "tsserver", "yamlls" },
     handlers = {
         lsp_zero.default_setup,
         cssls = function()

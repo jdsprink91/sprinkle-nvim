@@ -613,7 +613,7 @@ dashboard.section.header.val = {
 }
 
 dashboard.section.buttons.val = {
-    dashboard.button("f", "📁  > Find File", ":Telescope git_files hidden=true theme=dropdown<CR>"),
+    dashboard.button("o", "📁  > Open Oil", "<cmd>Oil<cr>"),
     dashboard.button("g", "🔎  > Grep Search", ":Telescope live_grep theme=dropdown<cr>"),
     dashboard.button("l", "📌  > Load Last Session", ":SessionManager load_current_dir_session<CR>"),
     dashboard.button("s", "🔌  > Sync Plugins", ":Lazy sync<CR>"),
@@ -643,4 +643,4 @@ lualine.setup {
 
 -- oil
 require('oil').setup()
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })

@@ -365,7 +365,7 @@ mason_lspconfig.setup {
                                 enabled = true
                             },
                             pylsp_mypy = {
-                                enabled = true,
+                                enabled = false,
                             }
                         }
                     }
@@ -451,9 +451,10 @@ local telescope = require('telescope')
 local action_state = require('telescope.actions.state')
 local builtin = require('telescope.builtin')
 local actions = require('telescope.actions')
+local dropdown_theme = require('telescope.themes').get_dropdown()
 telescope.setup {
     defaults = {
-        file_ignore_patterns = { ".git/" }
+        file_ignore_patterns = { ".git/" },
     },
     pickers = {
         find_files = {
@@ -470,6 +471,7 @@ telescope.setup {
 local m = {}
 m.buffers = function(opts)
     opts = opts or {}
+
     -- opts.sort_lastused = true
     -- opts.show_all_buffers = true
     -- opts.shorten_path = false
@@ -495,19 +497,16 @@ m.buffers = function(opts)
         return true
     end
     -- we can't have the nice ui here because C-d moves file previewer
-    builtin.buffers(opts)
+    builtin.buffers(require('telescope.themes').get_dropdown(opts))
 end
 
 -- all the key maps
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>gf', builtin.git_files, {})
-vim.keymap.set('n', '<leader>of', builtin.oldfiles, {})
-vim.keymap.set('n', '<leader>ps', builtin.grep_string, {})
-vim.keymap.set('n', '<leader>lg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>ff', function() builtin.find_files(dropdown_theme) end, {})
+vim.keymap.set('n', '<leader>gf', function() builtin.git_files(dropdown_theme) end, {})
+vim.keymap.set('n', '<leader>lg', function() builtin.live_grep(dropdown_theme) end, {})
 vim.keymap.set('n', '<leader>fb', m.buffers, {})
-vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
-vim.keymap.set('n', '<leader>mm', builtin.marks, {})
-vim.keymap.set('n', '<leader>km', builtin.keymaps, {})
+vim.keymap.set('n', '<leader>fr', function() builtin.lsp_references(dropdown_theme) end, {})
+vim.keymap.set('n', '<leader>km', function() builtin.keymaps(dropdown_theme) end, {})
 
 -- DAP
 local dap = require('dap')
@@ -614,8 +613,8 @@ dashboard.section.header.val = {
 }
 
 dashboard.section.buttons.val = {
-    dashboard.button("f", "📁  > Find File", ":Telescope git_files hidden=true<CR>"),
-    dashboard.button("g", "🔎  > Grep Search", ":Telescope live_grep<cr>"),
+    dashboard.button("f", "📁  > Find File", ":Telescope git_files hidden=true theme=dropdown<CR>"),
+    dashboard.button("g", "🔎  > Grep Search", ":Telescope live_grep theme=dropdown<cr>"),
     dashboard.button("l", "📌  > Load Last Session", ":SessionManager load_current_dir_session<CR>"),
     dashboard.button("s", "🔌  > Sync Plugins", ":Lazy sync<CR>"),
     dashboard.button("q", "🛑  > Quit Neovim", ":qa<CR>"),
@@ -631,6 +630,9 @@ local gitblame = require("gitblame")
 -- lualine
 local lualine = require("lualine")
 lualine.setup {
+    options = {
+        globalstatus = true
+    },
     sections = {
         lualine_x = {
             { gitblame.get_current_blame_text, cond = gitblame.is_blame_text_available },

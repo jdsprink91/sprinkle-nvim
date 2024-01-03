@@ -123,6 +123,7 @@ require('lazy').setup({
             { 'hrsh7th/cmp-nvim-lsp' },     -- Required
             { 'hrsh7th/cmp-buffer' },       -- Optional
             { 'hrsh7th/cmp-path' },         -- Optional
+            { 'hrsh7th/cmp-cmdline' },      -- Optional
             { 'saadparwaiz1/cmp_luasnip' }, -- Optional
             { 'hrsh7th/cmp-nvim-lua' },     -- Optional
 
@@ -365,7 +366,7 @@ mason_lspconfig.setup {
                                 enabled = true
                             },
                             pylsp_mypy = {
-                                enabled = false,
+                                enabled = true,
                             }
                         }
                     }
@@ -428,6 +429,28 @@ cmp.setup({
         local context = require("cmp.config.context")
         return not (context.in_treesitter_capture("comment") == true or context.in_syntax_group("Comment"))
     end
+})
+-- `/` cmdline setup.
+cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
+
+-- `:` cmdline setup.
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        {
+            name = 'cmdline',
+            option = {
+                ignore_cmds = { 'Man', '!' }
+            }
+        }
+    })
 })
 
 -- null ls setup

@@ -471,17 +471,14 @@ null_ls.setup({
 
 -- telescope
 local telescope = require('telescope')
-local action_state = require('telescope.actions.state')
 local builtin = require('telescope.builtin')
-local actions = require('telescope.actions')
-local dropdown_theme = require('telescope.themes').get_dropdown()
 telescope.setup {
     defaults = {
         file_ignore_patterns = { ".git/" },
     },
     pickers = {
         find_files = {
-            hidden = true
+            hidden = true,
         },
         git_files = {
             hidden = true
@@ -491,43 +488,15 @@ telescope.setup {
         },
     }
 }
-local m = {}
-m.buffers = function(opts)
-    opts = opts or {}
+-- finding files with no previewer
+local dropdown_theme_no_previewer = require('telescope.themes').get_dropdown({ previewer = false })
+vim.keymap.set('n', '<leader>ff', function() builtin.find_files(dropdown_theme_no_previewer) end, {})
+vim.keymap.set('n', '<leader>gf', function() builtin.git_files(dropdown_theme_no_previewer) end, {})
+vim.keymap.set('n', '<leader>fb', function() builtin.buffers(dropdown_theme_no_previewer) end, {})
 
-    -- opts.sort_lastused = true
-    -- opts.show_all_buffers = true
-    -- opts.shorten_path = false
-    opts.attach_mappings = function(prompt_bufnr, map)
-        local d = {}
-        d.delete_buf = function()
-            local current_picker = action_state.get_current_picker(prompt_bufnr)
-            local multi_selections = current_picker:get_multi_selection()
-
-            if next(multi_selections) == nil then
-                local selection = action_state.get_selected_entry()
-                actions.close(prompt_bufnr)
-                vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-            else
-                actions.close(prompt_bufnr)
-                for _, selection in ipairs(multi_selections) do
-                    vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-                end
-            end
-        end
-        map('i', '<C-d>', d.delete_buf)
-        map('n', '<C-d>', d.delete_buf)
-        return true
-    end
-    -- we can't have the nice ui here because C-d moves file previewer
-    builtin.buffers(require('telescope.themes').get_dropdown(opts))
-end
-
--- all the key maps
-vim.keymap.set('n', '<leader>ff', function() builtin.find_files(dropdown_theme) end, {})
-vim.keymap.set('n', '<leader>gf', function() builtin.git_files(dropdown_theme) end, {})
+-- these things should get a previewer
+local dropdown_theme = require('telescope.themes').get_dropdown()
 vim.keymap.set('n', '<leader>lg', function() builtin.live_grep(dropdown_theme) end, {})
-vim.keymap.set('n', '<leader>fb', m.buffers, {})
 vim.keymap.set('n', '<leader>fr', function() builtin.lsp_references(dropdown_theme) end, {})
 vim.keymap.set('n', '<leader>km', function() builtin.keymaps(dropdown_theme) end, {})
 
@@ -618,21 +587,15 @@ local dashboard = require("alpha.themes.dashboard")
 
 -- Set header
 dashboard.section.header.val = {
-    "    __________________   __________________    ",
-    ".-/|                  \\ /                  |\\-.",
-    "||||                   |                   ||||",
-    "||||                   |       ~~*~~       ||||",
-    "||||    --==*==--      |                   ||||",
-    "||||                   |                   ||||",
-    "||||                   |                   ||||",
-    "||||                   |     Literati!     ||||",
-    "||||                   |                   ||||",
-    "||||                   |                   ||||",
-    "||||                   |                   ||||",
-    "||||                   |                   ||||",
-    "||||__________________ | __________________||||",
-    "||/===================\\|/===================\\||",
-    "`--------------------~___~-------------------''",
+    " ",
+    "(`-').-> _  (`-')   (`-')   _     <-. (`-')_ <-.(`-')          (`-')  _      (`-')  _     <-. (`-')",
+    "( OO)_   \\-.(OO )<-.(OO )  (_)       \\( OO) ) __( OO)   <-.    ( OO).-/     _(OO ) (_)       \\(OO )_",
+    "(_)--\\_)  _.'    \\,------,) ,-(`-'),--./ ,--/ '-'. ,--.,--. )  (,------.,--.(_/,-.\\ ,-(`-'),--./  ,-.)",
+    "/    _ / (_...--''|   /`. ' | ( OO)|   \\ |  | |  .'   /|  (`-') |  .---'\\   \\ / (_/ | ( OO)|   `.'   |",
+    "\\_..`--. |  |_.' ||  |_.' | |  |  )|  . '|  |)|      /)|  |OO )(|  '--.  \\   /   /  |  |  )|  |'.'|  |",
+    ".-._)   \\|  .___.'|  .   .'(|  |_/ |  |\\    | |  .   '(|  '__ | |  .--' _ \\     /_)(|  |_/ |  |   |  |",
+    "\\       /|  |     |  |\\  \\  |  |'->|  | \\   | |  |\\   \\|     |' |  `---.\\-'\\   /    |  |'->|  |   |  |",
+    " `-----' `--'     `--' '--' `--'   `--'  `--' `--' '--'`-----'  `------'    `-'     `--'   `--'   `--'",
 }
 
 dashboard.section.buttons.val = {

@@ -257,8 +257,8 @@ vim.opt.foldenable = false
 -- some keymaps
 vim.keymap.set("n", "[w", "<C-w>W")
 vim.keymap.set("n", "]w", "<C-w>w")
-vim.keymap.set("n", "[q", ":cprev<CR>")
-vim.keymap.set("n", "]q", ":cnext<CR>")
+vim.keymap.set("n", "[q", ":cprev<cr>")
+vim.keymap.set("n", "]q", ":cnext<cr>")
 
 -- if we're in a django project, always set these html files to be htmldjango
 vim.api.nvim_create_autocmd({
@@ -599,11 +599,12 @@ dashboard.section.header.val = {
 }
 
 dashboard.section.buttons.val = {
-    dashboard.button("o", "📁  > Open Oil", "<cmd>Oil<cr>"),
+    dashboard.button("o", "🛢  > Oil", ":Oil<cr>"),
+    dashboard.button("f", "📁  > Find File", ":Telescope find_files theme=dropdown<cr>"),
     dashboard.button("g", "🔎  > Grep Search", ":Telescope live_grep theme=dropdown<cr>"),
-    dashboard.button("l", "📌  > Load Last Session", ":SessionManager load_current_dir_session<CR>"),
-    dashboard.button("s", "🔌  > Sync Plugins", ":Lazy sync<CR>"),
-    dashboard.button("q", "🛑  > Quit Neovim", ":qa<CR>"),
+    dashboard.button("l", "📌  > Load Last Session", ":SessionManager load_current_dir_session<cr>"),
+    dashboard.button("s", "🔌  > Sync Plugins", ":Lazy sync<cr>"),
+    dashboard.button("q", "🛑  > Quit Neovim", ":qa<cr>"),
 }
 
 -- Send config to alpha

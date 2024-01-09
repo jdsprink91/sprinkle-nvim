@@ -492,7 +492,6 @@ telescope.setup {
 local dropdown_theme_no_previewer = require('telescope.themes').get_dropdown({ previewer = false })
 vim.keymap.set('n', '<leader>ff', function() builtin.find_files(dropdown_theme_no_previewer) end, {})
 vim.keymap.set('n', '<leader>gf', function() builtin.git_files(dropdown_theme_no_previewer) end, {})
-vim.keymap.set('n', '<leader>fb', function() builtin.buffers(dropdown_theme_no_previewer) end, {})
 
 -- these things should get a previewer
 local dropdown_theme = require('telescope.themes').get_dropdown()
@@ -600,7 +599,7 @@ dashboard.section.header.val = {
 
 dashboard.section.buttons.val = {
     dashboard.button("o", "🛢  > Oil", ":Oil<cr>"),
-    dashboard.button("f", "📁  > Find File", ":Telescope find_files theme=dropdown<cr>"),
+    dashboard.button("f", "📁  > Find File", ":Telescope find_files theme=dropdown previewer=false<cr>"),
     dashboard.button("g", "🔎  > Grep Search", ":Telescope live_grep theme=dropdown<cr>"),
     dashboard.button("l", "📌  > Load Last Session", ":SessionManager load_current_dir_session<cr>"),
     dashboard.button("s", "🔌  > Sync Plugins", ":Lazy sync<cr>"),

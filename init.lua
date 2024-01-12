@@ -219,10 +219,15 @@ require('lazy').setup({
     "goolord/alpha-nvim",
 }, {})
 
--- mr worldwide
+-- line number config
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+-- where to open up a new window
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+
+-- tabs
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -249,8 +254,10 @@ vim.opt.updatetime = 50
 
 vim.opt.hidden = true
 
+-- which python host
 vim.g.python3_host_prog = '/Users/jasonsprinkle/.pyenv/versions/py3nvim/bin/python'
 
+-- folds
 vim.opt.foldmethod = "indent"
 vim.opt.foldenable = false
 
@@ -438,21 +445,6 @@ cmp.setup.cmdline('/', {
     }
 })
 
--- `:` cmdline setup.
-cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-        { name = 'path' }
-    }, {
-        {
-            name = 'cmdline',
-            option = {
-                ignore_cmds = { 'Man', '!', 'G' }
-            }
-        }
-    })
-})
-
 -- null ls setup
 local null_ls = require("null-ls")
 null_ls.setup({
@@ -474,7 +466,7 @@ local telescope = require('telescope')
 local builtin = require('telescope.builtin')
 telescope.setup {
     defaults = {
-        file_ignore_patterns = { ".git/" },
+        file_ignore_patterns = { "node_modules/", ".git/" },
     },
     pickers = {
         find_files = {

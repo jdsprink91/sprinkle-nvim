@@ -76,7 +76,13 @@ require('lazy').setup({
                 },
                 sections = {
                     lualine_x = {
-                        { gitblame.get_current_blame_text, cond = gitblame.is_blame_text_available },
+                        {
+                            gitblame.get_current_blame_text,
+                            cond = gitblame.is_blame_text_available,
+                            fmt = function(str)
+                                return str:sub(1, 75)
+                            end
+                        },
                         'encoding', 'fileformat', 'filetype'
                     }
                 }
@@ -305,13 +311,6 @@ require('lazy').setup({
                     local context = require("cmp.config.context")
                     return not (context.in_treesitter_capture("comment") == true or context.in_syntax_group("Comment"))
                 end
-            })
-            -- `/` cmdline setup.
-            cmp.setup.cmdline('/', {
-                mapping = cmp.mapping.preset.cmdline(),
-                sources = {
-                    { name = 'buffer' }
-                }
             })
         end
     },

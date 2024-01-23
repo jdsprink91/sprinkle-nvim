@@ -64,4 +64,7 @@ vim.api.nvim_create_autocmd({
 
 vim.opt.termguicolors = true
 
+-- want the buffer number and the filename
+vim.opt.winbar = "%n %f"
+
 vim.g.mapleader = " "

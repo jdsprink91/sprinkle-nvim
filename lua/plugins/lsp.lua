@@ -1,6 +1,6 @@
 return {
     "VonHeikemen/lsp-zero.nvim",
-    branch = 'v3.x',
+    branch = "v3.x",
     dependencies = {
         -- LSP Support
         "neovim/nvim-lspconfig",
@@ -109,7 +109,7 @@ return {
                                         enabled = true
                                     },
                                     pylsp_mypy = {
-                                        enabled = true,
+                                        enabled = false,
                                     }
                                 }
                             }

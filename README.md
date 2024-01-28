@@ -1,3 +1,6 @@
+# DEPRECATED!!!!
+This repo is deprecated in favor of a more robust dotfiles system. Checkout that repo [here](https://github.com/jdsprink91/dotfiles).
+
 # sprinkle-nvim
 Neovim setup that works for sprinkles.
 
